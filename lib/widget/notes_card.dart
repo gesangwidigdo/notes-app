@@ -2,7 +2,8 @@ import 'package:assignment_1/widget/open_notes_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class NotesCard extends StatelessWidget {
+class NotesCard extends StatefulWidget {
+  final int index;
   final String title;
   final String body;
   final DateTime date;
@@ -10,6 +11,7 @@ class NotesCard extends StatelessWidget {
 
   const NotesCard({
     super.key,
+    required this.index,
     required this.title,
     required this.body,
     required this.date,
@@ -17,9 +19,18 @@ class NotesCard extends StatelessWidget {
   });
 
   @override
+  State<NotesCard> createState() => _NotesCardState();
+}
+
+class _NotesCardState extends State<NotesCard> {
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => openNotesDialog(context, title, body),
+      onTap: () async {
+        bool? updated = await openNotesDialog(context, index: widget.index);
+        print(updated);
+        setState(() {});
+      },
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
@@ -34,23 +45,27 @@ class NotesCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          title,
+                          widget.title,
                           overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         Text(
-                          body,
+                          widget.body,
                           overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
                         Text(
-                          DateFormat('d/MM/y').format(date),
+                          isLessThan24Hourse(widget.date)
+                              ? DateFormat.Hm().format(widget.date)
+                              : DateFormat('d/MM/y').format(widget.date),
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -61,7 +76,7 @@ class NotesCard extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: delete,
+                    onPressed: widget.delete,
                     icon: Icon(Icons.delete_outline, color: Colors.red),
                   ),
                 ],
@@ -72,4 +87,8 @@ class NotesCard extends StatelessWidget {
       ),
     );
   }
+}
+
+bool isLessThan24Hourse(DateTime date) {
+  return DateTime.now().difference(date).inHours < 24;
 }

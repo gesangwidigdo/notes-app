@@ -27,6 +27,7 @@ class _NotesScreenState extends State<NotesScreen> {
             title: note.title,
             body: note.body,
             date: note.date,
+            index: index,
             delete: () {
               setState(() {
                 noteList.removeAt(index);
@@ -36,8 +37,12 @@ class _NotesScreenState extends State<NotesScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          openNotesDialog(context, '', '');
+        onPressed: () async {
+          bool? updated = await openNotesDialog(context);
+          print(updated);
+          if (updated == true) {
+            setState(() {});
+          }
         },
         backgroundColor: Colors.blueGrey[900],
         child: Icon(Icons.add, color: Colors.white70),

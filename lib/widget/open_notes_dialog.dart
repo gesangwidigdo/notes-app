@@ -1,10 +1,16 @@
+import 'package:assignment_1/model/notes.dart';
 import 'package:flutter/material.dart';
 
-Future<void> openNotesDialog(BuildContext context, String title, String body) {
-  TextEditingController titleController = TextEditingController(text: title);
-  TextEditingController bodyController = TextEditingController(text: body);
+Future<bool?> openNotesDialog(BuildContext context, {int? index}) {
+  bool isEditing = index != null;
+  TextEditingController titleController = TextEditingController(
+    text: isEditing ? noteList[index].title : '',
+  );
+  TextEditingController bodyController = TextEditingController(
+    text: isEditing ? noteList[index].body : '',
+  );
 
-  return showDialog<void>(
+  return showDialog<bool>(
     context: context,
     builder: (BuildContext context) {
       return Dialog.fullscreen(
@@ -13,15 +19,24 @@ Future<void> openNotesDialog(BuildContext context, String title, String body) {
             leading: IconButton(
               icon: Icon(Icons.arrow_back),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context, false);
               },
             ),
-            title:
-                title == '' && body == ''
-                    ? Text('Add Notes')
-                    : Text('Edit Notes'),
+            title: isEditing ? Text('Edit Notes') : Text('Add Notes'),
             actions: <Widget>[
-              IconButton(onPressed: () {}, icon: Icon(Icons.check)),
+              IconButton(
+                onPressed: () {
+                  String title = titleController.text;
+                  String body = bodyController.text;
+                  if (title.isNotEmpty || body.isNotEmpty) {
+                    isEditing
+                        ? editNotes(index, title, body)
+                        : addNotes(title, body);
+                  }
+                  Navigator.pop(context, true);
+                },
+                icon: Icon(Icons.check),
+              ),
             ],
           ),
           body: Padding(
@@ -69,4 +84,16 @@ Future<void> openNotesDialog(BuildContext context, String title, String body) {
       );
     },
   );
+}
+
+void addNotes(String title, String body) {
+  noteList.add(Notes(title: title, body: body, date: DateTime.now()));
+}
+
+void editNotes(int index, String newTitle, String newBody) {
+  if (index >= 0 && index < noteList.length) {
+    noteList[index].title = newTitle;
+    noteList[index].body = newBody;
+    noteList[index].date = DateTime.now();
+  }
 }
