@@ -19,26 +19,29 @@ class _NotesScreenState extends State<NotesScreen> {
         centerTitle: true,
         backgroundColor: Colors.blueGrey[900],
       ),
-      body: ListView.builder(
-        itemCount: noteList.length,
-        itemBuilder: (context, index) {
-          final note = noteList[index];
-          return NotesCard(
-            title: note.title,
-            body: note.body,
-            date: note.date,
-            index: index,
-            delete: () {
-              setState(() {
-                noteList.removeAt(index);
-              });
-            },
-            onUpdate: () {
-              setState(() {});
-            },
-          );
-        },
-      ),
+      body:
+          noteList.length == 0
+              ? Center(child: Text('No Item'))
+              : ListView.builder(
+                itemCount: noteList.length,
+                itemBuilder: (context, index) {
+                  final note = noteList[index];
+                  return NotesCard(
+                    title: note.title,
+                    body: note.body,
+                    date: note.date,
+                    index: index,
+                    delete: () {
+                      setState(() {
+                        noteList.removeAt(index);
+                      });
+                    },
+                    onUpdate: () {
+                      setState(() {});
+                    },
+                  );
+                },
+              ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           bool? updated = await openNotesDialog(context);
