@@ -25,6 +25,7 @@ class _NotesScreenState extends State<NotesScreen> {
               : ListView.builder(
                 itemCount: noteList.length,
                 itemBuilder: (context, index) {
+                  noteList.sort((a, b) => b.date.compareTo(a.date));
                   final note = noteList[index];
                   return NotesCard(
                     title: note.title,
