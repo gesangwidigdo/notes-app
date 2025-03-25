@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:assignment_1/widget/notes_card.dart';
 import 'package:assignment_1/model/notes.dart';
+import 'package:assignment_1/widget/open_notes_dialog.dart';
 
 class NotesScreen extends StatefulWidget {
   const NotesScreen({super.key});
@@ -36,23 +37,11 @@ class _NotesScreenState extends State<NotesScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _dialogBuilder(context);
+          openNotesDialog(context, '', '');
         },
         backgroundColor: Colors.blueGrey[900],
         child: Icon(Icons.add, color: Colors.white70),
       ),
     );
   }
-}
-
-Future<void> _dialogBuilder(BuildContext context) {
-  return showDialog<void>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Add Notes'),
-        content: Column(children: <Widget>[TextField()]),
-      );
-    },
-  );
 }

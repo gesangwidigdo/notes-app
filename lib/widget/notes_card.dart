@@ -1,3 +1,4 @@
+import 'package:assignment_1/widget/open_notes_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -18,7 +19,7 @@ class NotesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () => openNotesDialog(context, title, body),
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
