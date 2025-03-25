@@ -33,13 +33,15 @@ class _NotesScreenState extends State<NotesScreen> {
                 noteList.removeAt(index);
               });
             },
+            onUpdate: () {
+              setState(() {});
+            },
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           bool? updated = await openNotesDialog(context);
-          print(updated);
           if (updated == true) {
             setState(() {});
           }

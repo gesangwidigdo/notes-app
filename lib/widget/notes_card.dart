@@ -8,6 +8,7 @@ class NotesCard extends StatefulWidget {
   final String body;
   final DateTime date;
   final VoidCallback delete;
+  final VoidCallback onUpdate; // New parameter
 
   const NotesCard({
     super.key,
@@ -16,6 +17,7 @@ class NotesCard extends StatefulWidget {
     required this.body,
     required this.date,
     required this.delete,
+    required this.onUpdate, // New parameter
   });
 
   @override
@@ -28,11 +30,12 @@ class _NotesCardState extends State<NotesCard> {
     return GestureDetector(
       onTap: () async {
         bool? updated = await openNotesDialog(context, index: widget.index);
-        print(updated);
-        setState(() {});
+        if (updated == true) {
+          widget.onUpdate(); // Notify NotesScreen
+        }
       },
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
