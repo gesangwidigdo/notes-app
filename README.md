@@ -13,6 +13,12 @@
 
 [![Notes App Demo Video](screenshots/notes_app.jpg)](https://youtu.be/sj3jEb15XBQ)
 
+**Add Note**
+![Add Note](screenshots/add_note.jpg)
+
+**Edit Note**
+![Edit Note](screenshots/edit_notes.jpg)
+
 Link Youtube: https://youtu.be/sj3jEb15XBQ
 
 ## Referensi
